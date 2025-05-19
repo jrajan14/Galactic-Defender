@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    align-items: center;
+    background: #000;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.game-wrapper {
+    position:relative;
+}
+
+.game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    background: linear-gradient(to bottom, #000000, #000033);
+    width: 800px;  
+    height: 600px;
+}
+
+.ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.ui-panel {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    backdrop-filter: blur(3px);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.ui-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.ui-label {
+    font-size: 12px;
+    color: #00ffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.ui-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+.health-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.health-bar {
+    width: 100px;
+    height: 10px;
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.health-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, #ff0000, #ff8000);
+    border-radius: 5px;
+    transition: width 0.3s;
+}
+
+.health-value {
+    font-size: 12px;
+    color: #fff;
+    min-width: 40px;
+    text-align: right;
+}
+
+.start-screen, .game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.game-over-screen {
+    display: none;
+}
+
+.start-content, .game-over-content {
+    text-align: center;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.5rem;
+    color: #00ffff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    position: relative;
+    z-index: 2;
+}
+
+.title-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, rgba(0, 255, 255, 0) 70%);
+    z-index: 1;
+}
+
+.menu-container {
+    margin-top: 30px;
+}
+
+.menu-button {
+    padding: 15px 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(to bottom, #00c6ff, #0072ff);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: all 0.3s;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.menu-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 198, 255, 0.8);
+}
+
+.menu-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 55%
+    );
+    transform: rotate(30deg);
+    z-index: 1;
+}
+
+.menu-button.pulse::before {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: rotate(30deg) translateX(-100%); }
+    100% { transform: rotate(30deg) translateX(100%); }
+}
+
+.controls {
+    margin-top: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #00ffff;
+}
+
+.control-item {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.key {
+    display: inline-block;
+    padding: 5px 10px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    margin: 0 5px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8rem;
+}
+
+.powerup-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin: 0 5px;
+    position: relative;
+}
+
+.powerup-icon::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.powerup-icon.health {
+    background: #00ff00;
+}
+
+.powerup-icon.health::after {
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.powerup-icon.double {
+    background: #ffff00;
+}
+
+.powerup-icon.double::after {
+    box-shadow: 0 0 10px #ffff00;
+}
+
+.powerup-icon.laser {
+    background: #ff00ff;
+}
+
+.powerup-icon.laser::after {
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+.powerup-icon.shield {
+    background: #00ffff;
+}
+
+.powerup-icon.shield::after {
+    box-shadow: 0 0 10px #00ffff;
+}
+
+.final-stats {
+    margin: 30px 0;
+    font-size: 1.2rem;
+}
+
+.final-stats div {
+    margin: 10px 0;
+}
+
+.final-stats span {
+    color: #00ffff;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .ui-panel {
+        padding: 10px;
+    }
+    
+    .ui-label {
+        font-size: 10px;
+    }
+
+    .ui-item {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .health-container {
+        width: auto;
+    }
+    
+    .ui-value {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 800px) {
+    canvas {
+        width: 100%;
+        height: auto;
+        max-height: 100vh;
+    }
+}
