@@ -103,17 +103,15 @@ class Player {
             // Boundary checks
             this.x = Math.max(this.width / 2, Math.min(GAME_WIDTH - this.width / 2, this.x));
         }
-        else {
-            // Movement
-            if (keys['ArrowLeft'] || keys['a'])
-                this.x -= PLAYER_SPEED;
-            if (keys['ArrowRight'] || keys['d'])
-                this.x += PLAYER_SPEED;
-            if (keys['ArrowUp'] || keys['w'])
-                this.y -= PLAYER_SPEED;
-            if (keys['ArrowDown'] || keys['s'])
-                this.y += PLAYER_SPEED;
-        }
+        // Movement
+        if (keys['ArrowLeft'] || keys['a'])
+            this.x -= PLAYER_SPEED;
+        if (keys['ArrowRight'] || keys['d'])
+            this.x += PLAYER_SPEED;
+        if (keys['ArrowUp'] || keys['w'])
+            this.y -= PLAYER_SPEED;
+        if (keys['ArrowDown'] || keys['s'])
+            this.y += PLAYER_SPEED;
         // Boundary checks
         this.x = Math.max(this.width / 2, Math.min(GAME_WIDTH - this.width / 2, this.x));
         this.y = Math.max(this.height / 2, Math.min(GAME_HEIGHT - this.height / 2, this.y));
