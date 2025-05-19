@@ -337,3 +337,29 @@ h1 {
         max-height: 100vh;
     }
 }
+
+button {
+    touch-action: manipulation; /* Prevent browser gestures */
+}
+
+@media (max-width: 768px) {
+    .menu-button, #startButton, #restartButton {
+        padding: 20px 40px;
+        font-size: 1.5rem;
+    }
+    
+    /* Make shoot button for mobile */
+    .shoot-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(0, 200, 255, 0.5);
+        border: 2px solid #00ffff;
+        color: white;
+        font-size: 1rem;
+        z-index: 20;
+    }
+}
