@@ -25,6 +25,10 @@ let enemySpawnInterval = 2000;
 let lastTime = 0;
 let frameCount = 0;
 let fps = 0;
+// Gyro
+let useGyro = false;
+let deviceOrientation = null;
+let gyroCalibration = 0;
 // DOM Elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -44,6 +48,7 @@ canvas.height = GAME_HEIGHT;
 // Game Objects
 class Player {
     constructor() {
+        this.shootInterval = null;
         this.x = GAME_WIDTH / 2;
         this.y = GAME_HEIGHT - 100;
         this.width = 50;
@@ -91,15 +96,24 @@ class Player {
         ctx.restore();
     }
     update() {
-        // Movement
-        if (keys['ArrowLeft'] || keys['a'])
-            this.x -= PLAYER_SPEED;
-        if (keys['ArrowRight'] || keys['d'])
-            this.x += PLAYER_SPEED;
-        if (keys['ArrowUp'] || keys['w'])
-            this.y -= PLAYER_SPEED;
-        if (keys['ArrowDown'] || keys['s'])
-            this.y += PLAYER_SPEED;
+        if (useGyro && deviceOrientation) {
+            // Use gamma (left/right tilt) for movement
+            const tilt = (deviceOrientation.gamma || 0) - gyroCalibration;
+            this.x += tilt * 0.5; // Adjust multiplier for sensitivity
+            // Boundary checks
+            this.x = Math.max(this.width / 2, Math.min(GAME_WIDTH - this.width / 2, this.x));
+        }
+        else {
+            // Movement
+            if (keys['ArrowLeft'] || keys['a'])
+                this.x -= PLAYER_SPEED;
+            if (keys['ArrowRight'] || keys['d'])
+                this.x += PLAYER_SPEED;
+            if (keys['ArrowUp'] || keys['w'])
+                this.y -= PLAYER_SPEED;
+            if (keys['ArrowDown'] || keys['s'])
+                this.y += PLAYER_SPEED;
+        }
         // Boundary checks
         this.x = Math.max(this.width / 2, Math.min(GAME_WIDTH - this.width / 2, this.x));
         this.y = Math.max(this.height / 2, Math.min(GAME_HEIGHT - this.height / 2, this.y));
@@ -467,6 +481,7 @@ class Particle {
 // Game Initialization
 const player = new Player();
 function initGame() {
+    initGyroControls();
     // Reset game state
     score = 0;
     level = 1;
@@ -489,6 +504,65 @@ function initGame() {
     stars = [];
     for (let i = 0; i < STAR_COUNT; i++) {
         stars.push(new Star());
+    }
+    // Create mobile shoot button
+    if ('ontouchstart' in window) {
+        const shootBtn = document.createElement('button');
+        shootBtn.className = 'shoot-button';
+        shootBtn.textContent = 'SHOOT';
+        shootBtn.addEventListener('touchstart', () => {
+            player.shoot();
+            // Clear any existing interval first
+            if (player.shootInterval) {
+                clearInterval(player.shootInterval);
+            }
+            // Continuous shooting while holding
+            player.shootInterval = setInterval(() => player.shoot(), 200);
+        });
+        shootBtn.addEventListener('touchend', () => {
+            if (player.shootInterval) {
+                clearInterval(player.shootInterval);
+                player.shootInterval = null;
+            }
+        });
+        document.body.appendChild(shootBtn);
+    }
+}
+function initGyroControls() {
+    if (window.DeviceOrientationEvent) {
+        useGyro = true;
+        // Request permission on iOS 13+
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+                .then((response) => {
+                if (response === 'granted') {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+            })
+                .catch(console.error);
+        }
+        else {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+        // Add calibration button for mobile
+        const calibrateBtn = document.createElement('button');
+        calibrateBtn.textContent = 'Calibrate Gyro';
+        calibrateBtn.style.position = 'absolute';
+        calibrateBtn.style.bottom = '20px';
+        calibrateBtn.style.left = '50%';
+        calibrateBtn.style.transform = 'translateX(-50%)';
+        calibrateBtn.style.zIndex = '20';
+        calibrateBtn.style.padding = '10px 20px';
+        calibrateBtn.addEventListener('click', calibrateGyro);
+        document.body.appendChild(calibrateBtn);
+    }
+}
+function handleOrientation(event) {
+    deviceOrientation = event;
+}
+function calibrateGyro() {
+    if (deviceOrientation) {
+        gyroCalibration = deviceOrientation.gamma || 0;
     }
 }
 function spawnEnemy() {
