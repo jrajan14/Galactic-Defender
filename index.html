@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Defender</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="game-container">
+            <canvas id="gameCanvas"></canvas>
+            <div class="ui-overlay">
+                <div class="ui-panel">
+                    <div class="ui-item">
+                        <div class="ui-label">SCORE</div>
+                        <div class="ui-value" id="score">0</div>
+                    </div>
+                    <div class="ui-item">
+                        <div class="ui-label">HEALTH</div>
+                        <div class="health-container">
+                            <div class="health-bar">
+                                <div class="health-fill" id="healthFill"></div>
+                            </div>
+                            <div class="health-value" id="healthValue">100</div>
+                        </div>
+                    </div>
+                    <div class="ui-item">
+                        <div class="ui-label">LEVEL</div>
+                        <div class="ui-value" id="level">1</div>
+                    </div>
+                    <div class="ui-item">
+                        <div class="ui-label">POWER</div>
+                        <div class="ui-value" id="powerup">NONE</div>
+                    </div>
+                </div>
+            </div>
+            <div class="start-screen" id="startScreen">
+                <div class="start-content">
+                    <h1>GALACTIC DEFENDER</h1>
+                    <div class="title-glow"></div>
+                    <div class="menu-container">
+                        <button id="startButton" class="menu-button pulse">START MISSION</button>
+                        <div class="controls">
+                            <div class="control-item">
+                                <span class="key">WASD</span> or <span class="key">ARROWS</span> to move
+                            </div>
+                            <div class="control-item">
+                                <span class="key">SPACE</span> to shoot
+                            </div>
+                            <div class="control-item">
+                                Collect <span class="powerup-icon health"></span> for health
+                            </div>
+                            <div class="control-item">
+                                Collect <span class="powerup-icon double"></span> for double shot
+                            </div>
+                            <div class="control-item">
+                                Collect <span class="powerup-icon laser"></span> for laser beam
+                            </div>
+                            <div class="control-item">
+                                Collect <span class="powerup-icon shield"></span> for shield
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-over-screen" id="gameOverScreen">
+                <div class="game-over-content">
+                    <h1>MISSION FAILED</h1>
+                    <div class="final-stats">
+                        <div>FINAL SCORE: <span id="finalScore">0</span></div>
+                        <div>LEVEL REACHED: <span id="finalLevel">1</span></div>
+                    </div>
+                    <button id="restartButton" class="menu-button pulse">RETRY MISSION</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
