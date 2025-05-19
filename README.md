@@ -41,5 +41,6 @@ Fully responsive design optimized for desktop browsers.
 ### Webpack (optional) – For bundling and project structure
 
 🎮 Try It Out
+Play online : https://jrajan14.github.io/Galactic-Defender/ on Desktop or Mobile (Gyro Supported)
 Clone the repo, open index.html in your browser, and jump right into the action!
 
