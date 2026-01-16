@@ -1,7 +1,7 @@
 # 🌌 Galactic Defender - Space Shooter Game
 Galactic Defender is a fast-paced 2D space shooter game built using TypeScript, HTML5, and CSS3. Take control of a starfighter and battle through relentless waves of alien enemies. Collect power-ups, dodge incoming fire, and survive as long as possible in this retro-inspired arcade experience!
 
-## 🚀 Features    
+## 🚀 Features     
 Smooth & Responsive Controls
 Navigate using WASD or arrow keys, and fire with the Spacebar.
 
